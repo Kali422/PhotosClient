@@ -4,7 +4,7 @@
 namespace App\Repository\GooglePhotos;
 
 
-use App\Bridge\GooglePhotos\GooglePhotosClient;
+use App\Bridge\GooglePhotosClient;
 
 class GooglePhotosService
 {

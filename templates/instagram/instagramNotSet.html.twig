@@ -7,7 +7,7 @@
         <div class="container" style="font-size: 200%;">
             <div id="browse_app">
                 <p>To continue you have to connect with Instagram</p>
-                <a class="btn btn-large btn-info" href="https://api.instagram.com/oauth/authorize/?client_id=e1d115186d9f407a9c4c4ea30a7751fa&redirect_uri=http://localhost:8000/instagram&response_type=code">Connect with instagram</a>
+                <a class="btn btn-large btn-info" href="{{ buildIGAuthUrl() }}">Connect with instagram</a>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
 namespace App\Repository\Instagram;
 
 
-use App\Bridge\Instagram\InstagramClient;
+use App\Bridge\InstagramClient;
 
 class InstagramService
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller\GooglePhotos;
+namespace App\Controller;
 
-use App\Bridge\GooglePhotos\GooglePhotosClient;
-use App\Bridge\Instagram\InstagramClient;
+use App\Bridge\GooglePhotosClient;
+use App\Bridge\InstagramClient;
 use App\Repository\ControllerRepository;
 use App\Repository\GooglePhotos\GooglePhotosFactory;
 use App\Repository\GooglePhotos\GooglePhotosService;

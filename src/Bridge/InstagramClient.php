@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Bridge\Instagram;
+namespace App\Bridge;
 
 
 use Symfony\Component\HttpClient\HttpClient;

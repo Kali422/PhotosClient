@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Bridge\GooglePhotos;
+namespace App\Bridge;
 
 
 use Symfony\Component\HttpClient\HttpClient;

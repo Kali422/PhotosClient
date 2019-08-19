@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Controller\Instagram;
+namespace App\Controller;
 
-use App\Bridge\Instagram\InstagramClient;
+use App\Bridge\InstagramClient;
 use App\Repository\ControllerRepository;
 use App\Repository\Instagram\InstagramFactory;
 use App\Repository\Instagram\InstagramService;
