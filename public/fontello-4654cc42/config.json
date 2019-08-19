@@ -1,0 +1,28 @@
+{
+  "name": "",
+  "css_prefix_text": "icon-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "d02a803276d9e1f42b7393964aa22ce9",
+      "css": "heart",
+      "code": 59392,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "51fb22f9ff9d7f60c95ef31e4c59502d",
+      "css": "comment",
+      "code": 62636,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "9d3d9d6ce1ec63eaa26281e6162853c9",
+      "css": "camera-alt",
+      "code": 59393,
+      "src": "fontawesome"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class=" vertical-center">
+        <div class="container" style="font-size: 200%;">
+            <div id="browse_app">
+                <p>To continue connect with Google Photos</p>
+                <a class="btn btn-large btn-info"
+                   href="https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=573612275516-0kn63ht3sldlc0ooouo5j48sc43gbpgl.apps.googleusercontent.com&redirect_uri=http://localhost:8000/googlephotos&scope=https://www.googleapis.com/auth/photoslibrary.readonly">Connect
+                    with Google Photos</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

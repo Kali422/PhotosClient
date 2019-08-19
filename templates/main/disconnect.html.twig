@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ label }} " role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <div class=" vertical-center"> <!--
+                      ^--- Added class  -->
+        <div class="container" style="font-size: 200%;">
+            <div id="browse_app">
+                <p><img src="{{ asset('logos/instagram-png-instagram-png-logo-1455.png') }}" width="40px"
+                        height="40px"/><a href="{{ path('disconnect', {'what': 'instagram'}) }}">Disconnect from
+                        Instagram</a></p>
+                <p><img src="{{ asset('logos/1200px-Google_Photos_icon.svg.png') }}" width="40px" height="40px"/><a
+                            href="{{ path('disconnect', {'what': 'googlephotos'}) }}">Disconnect from Google Photos</a></p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

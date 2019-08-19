@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card mx-auto my-3" style="width: 40%">
+        <img src="{{ photo.url }}" class="card-img-top">
+        <div class="card-body">
+            <h5 class="card-title">{{photo.text}}</h5>
+                <p class="card-text"><small class="text-muted">Created: {{ photo.createdtime}}</small></p>
+                <a href="{{ path('google_photos_album_photos', {'albumId': albumId}) }}">Go back</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

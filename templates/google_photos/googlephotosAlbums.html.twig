@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card-group">
+    <a href="{{ path('google_photos_album_photos_all') }}" class="aphoto">
+        <div class="card float-left m-2" style="width: 12rem;">
+            <img class="card-img-top" src="{{asset('logos/folder-invoices--v1.png')}}">
+            <div class="card-body">
+                <h5 class="card-title">All photos</h5>
+            </div>
+        </div>
+    </a>
+
+        {% for album in albums %}
+            <a href="{{ path('google_photos_album_photos', {'albumId': album.id}) }}" class="aphoto">
+            <div class="card float-left m-2" style="width: 12rem;">
+                <img class="card-img-top" src="{{asset('logos/folder-invoices--v1.png')}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{album.title}}</h5>
+                </div>
+                <div class="card-footer">
+                    Photos: {{ album.mediacount }}
+                </div>
+            </div>
+            </a>
+        {% endfor %}
+</div>
+{% endblock %}
+

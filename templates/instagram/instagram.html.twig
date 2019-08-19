@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{#        {% for photoArray in photos %}#}
+{#            <div class="card-columns">#}
+{#            {% for photo in photoArray %}#}
+{#                <div class="card m-3">#}
+{#                    <a class="aphoto" href="{{ path("instagramOnePhoto", {"photoId": photo.id}) }}"><img class="card-img-top"#}
+{#                                                                                          src="{{ photo.url }}">#}
+{#                        <div class="card-body">#}
+{#                            <h5 class="card-title">{{ photo.text }}</h5>#}
+{#                            <div class="card-text float-left" style="width: 50%;">#}
+{#                                <i class="icon-heart"></i>Likes: {{ photo.likes }}#}
+{#                            </div>#}
+{#                            <div class="card-text float-left" style="width: 50%;">#}
+{#                                <i class="icon-comment"></i>Comments: {{ photo.comments }}#}
+{#                            </div>#}
+{#                            <p class="card-text"><small class="text-muted">Created: {{ photo.createdtime }}</small></p>#}
+{#                        </div>#}
+{#                    </a>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#            </div>#}
+{#        {% endfor %}#}
+
+
+    <div class="row">
+        {% for photoArray in photos %}
+            <div class="column">
+                {% for photo in photoArray %}
+                    <div class="card m-2">
+                        <a class="aphoto" href="{{ path("instagramOnePhoto", {"photoId": photo.id}) }}"><img class="card-img-top"
+                                                                                                             src="{{ photo.url }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ photo.text }}</h5>
+                                <div class="card-text float-left" style="width: 50%;">
+                                    <i class="icon-heart"></i>Likes: {{ photo.likes }}
+                                </div>
+                                <div class="card-text float-left" style="width: 50%;">
+                                    <i class="icon-comment"></i>Comments: {{ photo.comments }}
+                                </div>
+                                <p class="card-text"><small class="text-muted">Created: {{ photo.createdtime }}</small></p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}
