@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Repository;
+namespace App\Repository\Instagram;
 
 
 use App\Bridge\Instagram\InstagramClient;

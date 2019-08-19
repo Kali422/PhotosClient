@@ -1,16 +1,19 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\GooglePhotos;
 
 use App\Bridge\GooglePhotos\GooglePhotosClient;
 use App\Bridge\Instagram\InstagramClient;
-use App\Repository\GooglePhotosFactory;
-use App\Repository\GooglePhotosService;
-use App\Repository\InstagramFactory;
-use App\Repository\InstagramService;
+use App\Repository\ControllerRepository;
+use App\Repository\GooglePhotos\GooglePhotosFactory;
+use App\Repository\GooglePhotos\GooglePhotosService;
+use App\Repository\Instagram\InstagramFactory;
+use App\Repository\Instagram\InstagramService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+
+
 
 class GooglePhotosController extends AbstractController
 {
@@ -19,25 +22,8 @@ class GooglePhotosController extends AbstractController
      */
     public function getGooglePhotosAlbums(Request $request)
     {
-        //$access_token = $this->get('session')->get('gp_access_token');
         if ($code = $request->get('code')) {
-            $apiHost = "https://www.googleapis.com/oauth2/v4/token";
-            $apiData = [
-                'code' => $code,
-                'client_id' => "573612275516-0kn63ht3sldlc0ooouo5j48sc43gbpgl.apps.googleusercontent.com",
-                'client_secret' => "JteiGtMkFkW_aKHaxtl8nEB5",
-                'redirect_uri' => 'http://localhost:8000/googlephotos',
-                'grant_type' => 'authorization_code'
-            ];
-
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $apiHost);
-            curl_setopt($ch, CURLOPT_POST, count($apiData));
-            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($apiData));
-            curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $jsonData = json_decode(curl_exec($ch));
-            curl_close($ch);
+            $jsonData = (new ControllerRepository())->curlApiRequest($_ENV['GP_HOST'], $code, $_ENV['GP_REDIRECT_URI'], $_ENV['GP_CLIENT_ID'], $_ENV['GP_CLIENT_SECRET']);
 
             if (isset($jsonData->access_token)) {
                 $access_token = $jsonData->access_token;
@@ -92,7 +78,7 @@ class GooglePhotosController extends AbstractController
     /**
      * @Route("googlephotos/{albumId}/{mediaId}", name="google_photos_single_media")
      */
-    public function getGooglePhotoSingle($albumId ,$mediaId)
+    public function getGooglePhotoSingle($albumId='all',$mediaId)
     {
         $access_token = $this->get('session')->get('gp_access_token');
         $service = new GooglePhotosService(new GooglePhotosClient(), new GooglePhotosFactory());
