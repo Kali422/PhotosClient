@@ -26,22 +26,23 @@ class InstagramController extends AbstractController
 
             if (isset($jsonData->access_token)) {
                 $access_token = $jsonData->access_token;
-                $this->get('session')->set('ig_access_token', $access_token);
+                $tokensArray = $this->get('session')->get('tokens');
+                $tokensArray['Instagram'] = $access_token;
+                $this->get('session')->set('tokens', $tokensArray);
             }
 
 
         }
 
-        $access_token = $this->get('session')->get('ig_access_token');
+        $tokens = $this->get('session')->get('tokens');
 
-        if (null == $access_token) {
+        if (false == isset($tokens['Instagram'])) {
             return $this->render('instagram/instagramNotSet.html.twig');
         } else {
-            //wyswietlzdjecia
-
+            $access_token = $tokens['Instagram'];
             $service = new InstagramService(new InstagramFactory(), new InstagramClient());
             $photos = $service->getPhotos($access_token);
-            $photos = $service->slicePhotosArray($photos);
+            $photos = (new ControllerRepository())->slicePhotosArray($photos);
             return $this->render('instagram/instagram.html.twig', [
                 'photos' => $photos
             ]);
@@ -54,7 +55,7 @@ class InstagramController extends AbstractController
     public function getInstagramPhoto($photoId)
     {
         $service = new InstagramService((new InstagramFactory()), (new InstagramClient()));
-        $access_token = $this->get('session')->get('ig_access_token');
+        $access_token = ($this->get('session')->get('tokens'))['Instagram'];
         $photo = $service->getOnePhoto($access_token, $photoId);
         $comments = $service->getComments($access_token, $photoId);
         return $this->render('instagram/intagramPhoto.html.twig', [

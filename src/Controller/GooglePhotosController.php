@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-
 class GooglePhotosController extends AbstractController
 {
     /**
@@ -27,18 +26,20 @@ class GooglePhotosController extends AbstractController
 
             if (isset($jsonData->access_token)) {
                 $access_token = $jsonData->access_token;
-                $this->get('session')->set('gp_access_token', $access_token);
+                $tokensArray = $this->get('session')->get('tokens');
+                $tokensArray['GooglePhotos'] = $access_token;
+                $this->get('session')->set('tokens', $tokensArray);
             }
 
         }
 
-        $access_token = $this->get('session')->get('gp_access_token');
+        $tokens = $this->get('session')->get('tokens');
 
-        if (!isset($access_token)) {
+        if (!isset($tokens['GooglePhotos'])) {
             return $this->render('google_photos/googlephotosNotSet.html.twig');
         } else {
             $service = new GooglePhotosService(new GooglePhotosClient(), new GooglePhotosFactory());
-            $albums = $service->getAlbums($access_token);
+            $albums = $service->getAlbums($tokens['GooglePhotos']);
             return $this->render('google_photos/googlephotosAlbums.html.twig', [
                 'albums' => $albums
             ]);
@@ -50,10 +51,10 @@ class GooglePhotosController extends AbstractController
      */
     public function getGooglePhotosAll()
     {
-        $access_token = $this->get('session')->get('gp_access_token');
+        $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
         $service = new GooglePhotosService(new GooglePhotosClient(), new GooglePhotosFactory());
         $photos=$service->getAllPhotos($access_token);
-        $photos = (new InstagramService(new InstagramFactory(), new InstagramClient()))->slicePhotosArray($photos);
+        $photos = (new ControllerRepository())->slicePhotosArray($photos);
         return $this->render('google_photos/googlePhotosAll.html.twig', [
             "photos" => $photos
         ]);
@@ -64,7 +65,7 @@ class GooglePhotosController extends AbstractController
      */
     public function getGooglePhotosPhotosInAlbum($albumId)
     {
-        $access_token = $this->get('session')->get('gp_access_token');
+        $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
         $service = new GooglePhotosService(new GooglePhotosClient(), new GooglePhotosFactory());
         $photos = $service->getPhotos($access_token, $albumId);
         $photos = (new InstagramService(new InstagramFactory(), new InstagramClient()))->slicePhotosArray($photos);
@@ -78,9 +79,9 @@ class GooglePhotosController extends AbstractController
     /**
      * @Route("googlephotos/{albumId}/{mediaId}", name="google_photos_single_media")
      */
-    public function getGooglePhotoSingle($albumId='all',$mediaId)
+    public function getGooglePhotoSingle($albumId,$mediaId)
     {
-        $access_token = $this->get('session')->get('gp_access_token');
+        $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
         $service = new GooglePhotosService(new GooglePhotosClient(), new GooglePhotosFactory());
         $photo = $service->getOnePhoto($access_token, $mediaId);
         return $this->render('google_photos/googlePhotoOne.html.twig', ['photo' => $photo, 'albumId'=>$albumId]);
@@ -91,7 +92,7 @@ class GooglePhotosController extends AbstractController
      */
     public function getGooglePhotoSingleFromAll($mediaId)
     {
-        $access_token = $this->get('session')->get('gp_access_token');
+        $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
         $service = new GooglePhotosService(new GooglePhotosClient(), new GooglePhotosFactory());
         $photo = $service->getOnePhoto($access_token, $mediaId);
         return $this->render('google_photos/googlePhotoOne.html.twig', ['photo' => $photo, 'albumId'=>'all']);

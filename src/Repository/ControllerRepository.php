@@ -30,4 +30,32 @@ class ControllerRepository
 
     }
 
+    function slicePhotosArray($photos)
+    {
+        $count = count($photos);
+        $photosSliced = [
+            '1stColumn' => [],
+            '2ndColumn' => [],
+            '3rdColumn' => [],
+            '4thColumn' =>[],
+        ];
+        for ($i = 0; $i < $count; $i = $i + 4) {
+            if (isset($i)) {
+                array_push($photosSliced['1stColumn'], $photos[$i]);
+            }
+            if (isset($photos[$i + 1])) {
+                array_push($photosSliced['2ndColumn'], $photos[$i+1]);
+            }
+            if (isset($photos[$i + 2])) {
+                array_push($photosSliced['3rdColumn'], $photos[$i+2]);
+            }
+            if (isset($photos[$i + 3])) {
+                array_push($photosSliced['4thColumn'], $photos[$i+3]);
+            }
+
+        }
+
+        return $photosSliced;
+    }
+
 }

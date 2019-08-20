@@ -1,21 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-        <div class="row">
-            {% for photoArray in photos %}
-                <div class="column">
-                    {% for photo in photoArray %}
-                        <div class="card my-2">
-                            <a class="aphoto" href="{{ path('google_photos_single_media_from_all', {'mediaId': photo.id}) }}"><img class="card-img-top" src="{{ photo.url }}">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ photo.text }}</h5>
-                                    <p class="card-text"><small class="text-muted">Created: {{ photo.createdtime }}</small></p>
-                                </div>
-                            </a>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endfor %}
+    <div class="row">
+        {% for photoArray in photos %}
+            <div class="column">
+                {% for photo in photoArray %}
+                    <div class="card my-2">
+                        <a class="aphoto"
+                           href="{{ path('google_photos_single_media_from_all', {'mediaId': photo.id}) }}"><img
+                                    class="card-img-top" src="{{ photo.url }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ photo.text }}</h5>
+                                <p class="card-text"><small class="text-muted">Created: {{ photo.createdtime }}</small>
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
 
     </div>
 
