@@ -2,13 +2,8 @@
 
 namespace App\Controller;
 
-use App\Bridge\GooglePhotosClient;
-use App\Bridge\InstagramClient;
+use App\Repository\ApiRepostiory;
 use App\Repository\ControllerRepository;
-use App\Repository\GooglePhotos\GooglePhotosFactory;
-use App\Repository\GooglePhotos\GooglePhotosService;
-use App\Repository\Instagram\InstagramFactory;
-use App\Repository\Instagram\InstagramService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -66,21 +61,26 @@ class MainController extends AbstractController
     {
         $tokens = $this->get('session')->get('tokens');
         if (false == isset($tokens['GooglePhotos']) && false == isset($tokens['Instagram'])) {
-            //there is nothing to show
             return $this->render('main/noPhotos.html.twig');
         } else {
+            $apiRep = new ApiRepostiory();
+            $controllerRep = new ControllerRepository();
             $photos = [];
+            $IGphotos = [];
+            $GPphotos = [];
             if (isset($tokens['Instagram'])) {
-                $igService = new InstagramService(new InstagramFactory(), new InstagramClient());
-                $igPhotos = $igService->getPhotos($tokens['Instagram']);
-                $igPhotos = (new ControllerRepository())->slicePhotosArray($igPhotos);
-                array_push($photos, ['name' => 'Instagram', 'photos' => $igPhotos]);
+                $access_token = $tokens['Instagram'];
+                $IGphotos = $apiRep->getApiData('instagram', $access_token);
+                $IGphotos = $controllerRep->castToPhotos($IGphotos);
+                $IGphotos = $controllerRep->slicePhotosArray($IGphotos);
+                array_push($photos, ['name' => 'Instagram', 'photos' => $IGphotos]);
             }
             if (isset($tokens['GooglePhotos'])) {
-                $gpService = new GooglePhotosService(new GooglePhotosClient(), new GooglePhotosFactory());
-                $gpPhotos = $gpService->getAllPhotos($tokens['GooglePhotos']);
-                $gpPhotos = (new ControllerRepository())->slicePhotosArray($gpPhotos);
-                array_push($photos, ['name' => 'Google Photos', 'photos' => $gpPhotos]);
+                $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
+                $GPphotos = $apiRep->getApiData('googlephotos/photos', $access_token);
+                $GPphotos = $controllerRep->castToPhotos($GPphotos);
+                $GPphotos = $controllerRep->slicePhotosArray($GPphotos);
+                array_push($photos, ['name' => 'Google Photos', 'photos' => $GPphotos]);
             }
             return $this->render('main/allPhotos.html.twig', ['photos' => $photos]);
         }

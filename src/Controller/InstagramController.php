@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Bridge\InstagramClient;
+use App\Repository\ApiRepostiory;
 use App\Repository\ControllerRepository;
-use App\Repository\Instagram\InstagramFactory;
-use App\Repository\Instagram\InstagramService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,9 +38,11 @@ class InstagramController extends AbstractController
             return $this->render('instagram/instagramNotSet.html.twig');
         } else {
             $access_token = $tokens['Instagram'];
-            $service = new InstagramService(new InstagramFactory(), new InstagramClient());
-            $photos = $service->getPhotos($access_token);
-            $photos = (new ControllerRepository())->slicePhotosArray($photos);
+            $apiRep = new ApiRepostiory();
+            $photos=$apiRep->getApiData('instagram', $access_token);
+            $controllerRep = new ControllerRepository();
+            $photos=$controllerRep->castToPhotos($photos);
+            $photos = $controllerRep->slicePhotosArray($photos);
             return $this->render('instagram/instagram.html.twig', [
                 'photos' => $photos
             ]);
@@ -54,10 +54,13 @@ class InstagramController extends AbstractController
      */
     public function getInstagramPhoto($photoId)
     {
-        $service = new InstagramService((new InstagramFactory()), (new InstagramClient()));
         $access_token = ($this->get('session')->get('tokens'))['Instagram'];
-        $photo = $service->getOnePhoto($access_token, $photoId);
-        $comments = $service->getComments($access_token, $photoId);
+        $apiRep = new ApiRepostiory();
+        $controllerRep = new ControllerRepository();
+        $photo=$apiRep->getApiData('instagram/'.$photoId, $access_token);
+        $photo = $controllerRep->castToPhoto($photo);
+        $comments = $apiRep->getApiData('instagram/'.$photoId."/comments", $access_token);
+        $comments = $controllerRep->castToComments($comments);
         return $this->render('instagram/intagramPhoto.html.twig', [
             'photo' => $photo,
             'comments' => $comments
