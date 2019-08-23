@@ -79,7 +79,7 @@ class ControllerRepository
 
     }
 
-    function castToComments(array $commentsBefore)
+    function castToComments($commentsBefore)
     {
         $commentsAfter = [];
         foreach ($commentsBefore as $comment) {
@@ -98,10 +98,9 @@ class ControllerRepository
     function castToAlbums(array $albums)
     {
         $output = [];
-        foreach ($albums as $album)
-        {
+        foreach ($albums as $album) {
             $albumInstance = new GooglePhotoAlbum($album->id, $album->title, $album->mediaCount, $album->coverPhotoUrl, $album->url);
-            array_push($output,$albumInstance);
+            array_push($output, $albumInstance);
         }
         return $output;
     }

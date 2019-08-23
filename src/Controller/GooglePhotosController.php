@@ -36,6 +36,9 @@ class GooglePhotosController extends AbstractController
             $access_token = $tokens['GooglePhotos'];
             $apiRep = new ApiRepostiory();
             $albums = $apiRep->getApiData('googlephotos/albums', $access_token);
+
+
+
             $conRep = new ControllerRepository();
             $albums = $conRep->castToAlbums($albums);
             return $this->render('google_photos/googlephotosAlbums.html.twig', [
@@ -53,7 +56,7 @@ class GooglePhotosController extends AbstractController
         $apiRep = new ApiRepostiory();
         $photos = $apiRep->getApiData('googlephotos/photos', $access_token);
         $controllerRep = new ControllerRepository();
-        $photos=$controllerRep->castToPhotos($photos);
+        $photos = $controllerRep->castToPhotos($photos);
         $photos = $controllerRep->slicePhotosArray($photos);
         return $this->render('google_photos/googlePhotosAll.html.twig', [
             "photos" => $photos
@@ -67,9 +70,9 @@ class GooglePhotosController extends AbstractController
     {
         $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
         $apiRep = new ApiRepostiory();
-        $photos = $apiRep->getApiData('googlephotos/albums/'.$albumId, $access_token);
+        $photos = $apiRep->getApiData('googlephotos/albums/' . $albumId, $access_token);
         $controllerRep = new ControllerRepository();
-        $photos=$controllerRep->castToPhotos($photos);
+        $photos = $controllerRep->castToPhotos($photos);
         $photos = $controllerRep->slicePhotosArray($photos);
         return $this->render('google_photos/googlePhotos.html.twig', [
             "photos" => $photos,
@@ -85,9 +88,9 @@ class GooglePhotosController extends AbstractController
     {
         $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
         $apiRep = new ApiRepostiory();
-        $photo = $apiRep->getApiData('googlephotos/photos/'.$mediaId, $access_token);
+        $photo = $apiRep->getApiData('googlephotos/photos/' . $mediaId, $access_token);
         $controllerRep = new ControllerRepository();
-        $photo=$controllerRep->castToPhoto($photo);
+        $photo = $controllerRep->castToPhoto($photo);
         return $this->render('google_photos/googlePhotoOne.html.twig', ['photo' => $photo, 'albumId' => $albumId]);
     }
 
@@ -98,9 +101,9 @@ class GooglePhotosController extends AbstractController
     {
         $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
         $apiRep = new ApiRepostiory();
-        $photo = $apiRep->getApiData('googlephotos/photos/'.$mediaId, $access_token);
+        $photo = $apiRep->getApiData('googlephotos/photos/' . $mediaId, $access_token);
         $controllerRep = new ControllerRepository();
-        $photo=$controllerRep->castToPhoto($photo);
+        $photo = $controllerRep->castToPhoto($photo);
         return $this->render('google_photos/googlePhotoOne.html.twig', ['photo' => $photo, 'albumId' => 'all']);
     }
 

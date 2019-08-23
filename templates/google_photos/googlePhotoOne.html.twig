@@ -2,13 +2,14 @@
 
 
 {% block body %}
-    <div class="card mx-auto my-3 w-50">
+    <div class="card mx-auto my-3 customcard">
         <img src="{{ photo.url }}" class="card-img-top">
         <div class="card-body">
-            <h5 class="card-title">{{photo.text}}</h5>
-                <p class="card-text"><small class="text-muted">Created: {{ photo.createdtime}}</small></p>
-                <a href="{{ path('google_photos_album_photos', {'albumId': albumId}) }}">Go back</a>
-            </div>
+            <h5 class="card-title">{{ photo.text }}</h5>
+            <p class="card-text"><small class="text-muted">Created: {{ photo.createdtime }}</small></p>
+            <a href="{{ path('google_photos_album_photos', {'albumId': albumId}) }}">Go back</a>
+            <a href="{{ photo.link }}" class="float-right">View on official site</a>
         </div>
+    </div>
     </div>
 {% endblock %}

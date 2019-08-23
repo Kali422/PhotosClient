@@ -15,6 +15,7 @@ body {
     -o-transition: margin .25s ease-out;
     transition: margin .25s ease-out;
     z-index: 100;
+    background-color: rgba(248, 249, 250, 0.85);
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -44,6 +45,11 @@ body {
         min-width: 0;
         margin-left: 16rem;
         margin-right: 1rem;
+
+    }
+
+    .customcard {
+        width: 40%;
     }
 
     #wrapper.toggled #sidebar-wrapper {
@@ -51,7 +57,7 @@ body {
     }
 
     #wrapper.toggled #page-content-wrapper {
-        margin-left:1rem;
+        margin-left: 1rem;
         margin-right: 1rem;
     }
 }
@@ -107,4 +113,16 @@ body {
         flex: 100%;
         max-width: 100%;
     }
+}
+
+.transparent {
+    background-color: rgba(248, 249, 250, 0.85);
+}
+
+.opacity-0 {
+    background-color: rgba(1, 1, 1, 0);
+}
+
+.list-group-item:hover {
+    background-color: rgba(235, 236, 237, 0.5);
 }

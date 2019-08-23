@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="card mx-auto my-3" style="width: 40%;">
+    <div class="card mx-auto my-3 customcard">
         <img src="{{ photo.url }}" class="card-img-top">
         <div class="card-body">
-            <h5 class="card-title">{{photo.text}}</h5>
+            <h5 class="card-title">{{ photo.text }}</h5>
             <div class="card-text" style="width: 50%;">
                 <i class="icon-heart"></i>Likes: {{ photo.likes }}
             </div>
@@ -12,20 +12,22 @@
                 <i class="icon-comment"></i>Comments:
             </div>
             <div>
-            <ul class="list-group list-group-flush">
-                {% for comment in comments %}
-                    <li class="list-group-item">
-                        <small class="text-muted">{{ comment.createdtime }}</small>
-                        {{ comment.userfrom }}: {{ comment.text }}
-                    </li>
-                {% endfor %}
-            </ul>
-            <p class="card-text"><small class="text-muted">Created: {{ photo.createdtime}}</small></p>
+                <ul class="list-group list-group-flush">
+                    {% for comment in comments %}
+                        <li class="list-group-item">
+
+                            {{ comment.userfrom }}: {{ comment.text }}
+                            <small class="text-muted float-right">{{ comment.createdtime }}</small>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <p class="card-text"><small class="text-muted">Created: {{ photo.createdtime }}</small></p>
                 <a href="{{ path('instagram') }}">Go back</a>
+                <a href="{{ photo.link }}" class="float-right">View on official site</a>
             </div>
         </div>
     </div>
 
-
 {% endblock %}
+
 

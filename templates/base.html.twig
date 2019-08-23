@@ -22,7 +22,7 @@
 </head>
 
 <body>
-<nav class="navbar navbar-light bg-light border-bottom sticky-top">
+<nav class="navbar navbar-light  border-bottom sticky-top transparent">
     <div><a class="navbar-brand" href="{{ path('main') }}">
             <i class="icon-camera-alt"></i>
             Photos Client
@@ -35,21 +35,21 @@
     </a>
 </nav>
 <div class="d-flex" id="wrapper">
-    <div class="bg-light border-right position-fixed" id="sidebar-wrapper">
+    <div class="border-right position-fixed" id="sidebar-wrapper">
         <div class="list-group list-group-flush">
-            <a href="{{ path('displayAll') }}" class="list-group-item list-group-item-action bg-light">
+            <a href="{{ path('displayAll') }}" class="list-group-item list-group-item-action opacity-0" >
                 <img src="{{ asset('logos/folder-invoices--v1.png') }}" width="25" height="25"
                      class="d-inline-block align-top"/>
                 All my photos
 
             </a>
-            <a href="{{ path('instagram') }}" class="list-group-item list-group-item-action bg-light">
+            <a href="{{ path('instagram') }}" class="list-group-item list-group-item-action opacity-0">
                 <img src="{{ asset('logos/instagram-png-instagram-png-logo-1455.png') }}" width="25" height="25"
                      class="d-inline-block align-top"/>
                 Instagram
 
             </a>
-            <a href="{{ path('google_photos') }}" class="list-group-item list-group-item-action bg-light">
+            <a href="{{ path('google_photos') }}" class="list-group-item list-group-item-action opacity-0">
                 <img src="{{ asset('logos/1200px-Google_Photos_icon.svg.png') }}" width="25" height="25"
                      class="d-inline-block align-top"/>
                 Google Photos
@@ -82,6 +82,10 @@
         $("#wrapper").toggleClass("toggled");
     });
 </script>
+
+{% block scripts %}
+
+{% endblock %}
 
 
 </body>

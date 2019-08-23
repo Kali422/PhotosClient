@@ -16,7 +16,7 @@ class Photo
     private $comments;
     private $link;
 
-    function __construct($id, $url, $width, $height, $created_time, $text=null, $likes=null, $comments=null, $link=null)
+    function __construct($id, $url, $width, $height, $created_time, $text = null, $likes = null, $comments = null, $link = null)
     {
 
         $this->id = $id;
@@ -101,7 +101,6 @@ class Photo
     {
         return $this->link;
     }
-
 
 
 }

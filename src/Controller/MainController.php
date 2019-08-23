@@ -27,20 +27,17 @@ class MainController extends AbstractController
         $what = $request->get('what');
         switch ($what) {
             case 'instagram':
-                $token = ($this->get('session')->get('tokens'))['Instagram'];
-                if (isset($token)) {
-                    $tokensArray = $this->get('session')->get('tokens');
+                $tokensArray = $this->get('session')->get('tokens');
+                if (isset($tokensArray['Instagram'])) {
                     unset($tokensArray['Instagram']);
                     $this->get('session')->set('tokens', $tokensArray);
                     $this->addFlash('success', 'Successfully disconnected from Instagram');
-                } else {
+                } else
                     $this->addFlash('warning', 'Something went wrong, maybe you are already disconnected');
-                }
                 break;
             case 'googlephotos':
-                $token = ($this->get('session')->get('tokens'))['GooglePhotos'];
-                if (isset($token)) {
-                    $tokensArray = $this->get('session')->get('tokens');
+                $tokensArray = $this->get('session')->get('tokens');
+                if (isset($tokensArray['GooglePhotos'])) {
                     unset($tokensArray['GooglePhotos']);
                     $this->get('session')->set('tokens', $tokensArray);
                     $this->addFlash('success', 'Successfully disconnected from Google Photos');

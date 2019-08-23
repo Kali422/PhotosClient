@@ -39,9 +39,9 @@ class InstagramController extends AbstractController
         } else {
             $access_token = $tokens['Instagram'];
             $apiRep = new ApiRepostiory();
-            $photos=$apiRep->getApiData('instagram', $access_token);
+            $photos = $apiRep->getApiData('instagram', $access_token);
             $controllerRep = new ControllerRepository();
-            $photos=$controllerRep->castToPhotos($photos);
+            $photos = $controllerRep->castToPhotos($photos);
             $photos = $controllerRep->slicePhotosArray($photos);
             return $this->render('instagram/instagram.html.twig', [
                 'photos' => $photos
@@ -57,9 +57,9 @@ class InstagramController extends AbstractController
         $access_token = ($this->get('session')->get('tokens'))['Instagram'];
         $apiRep = new ApiRepostiory();
         $controllerRep = new ControllerRepository();
-        $photo=$apiRep->getApiData('instagram/'.$photoId, $access_token);
+        $photo = $apiRep->getApiData('instagram/' . $photoId, $access_token);
         $photo = $controllerRep->castToPhoto($photo);
-        $comments = $apiRep->getApiData('instagram/'.$photoId."/comments", $access_token);
+        $comments = $apiRep->getApiData('instagram/' . $photoId . "/comments", $access_token);
         $comments = $controllerRep->castToComments($comments);
         return $this->render('instagram/intagramPhoto.html.twig', [
             'photo' => $photo,
