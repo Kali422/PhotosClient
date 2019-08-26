@@ -8,6 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 class InstagramController extends AbstractController
 {
@@ -39,13 +43,17 @@ class InstagramController extends AbstractController
         } else {
             $access_token = $tokens['Instagram'];
             $apiRep = new ApiRepostiory();
-            $photos = $apiRep->getApiData('instagram', $access_token);
-            $controllerRep = new ControllerRepository();
-            $photos = $controllerRep->castToPhotos($photos);
-            $photos = $controllerRep->slicePhotosArray($photos);
-            return $this->render('instagram/instagram.html.twig', [
-                'photos' => $photos
-            ]);
+            try {
+                $photos = $apiRep->getApiData('instagram', $access_token);
+                $controllerRep = new ControllerRepository();
+                $photos = $controllerRep->castToPhotos($photos);
+                $photos = $controllerRep->slicePhotosArray($photos);
+                return $this->render('instagram/instagram.html.twig', [
+                    'photos' => $photos
+                ]);
+            } catch (ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface | TransportExceptionInterface $e) {
+                return $this->render('main/badrequest.html.twig', ['e' => $e->getMessage()]);
+            }
         }
     }
 
@@ -57,14 +65,18 @@ class InstagramController extends AbstractController
         $access_token = ($this->get('session')->get('tokens'))['Instagram'];
         $apiRep = new ApiRepostiory();
         $controllerRep = new ControllerRepository();
-        $photo = $apiRep->getApiData('instagram/' . $photoId, $access_token);
-        $photo = $controllerRep->castToPhoto($photo);
-        $comments = $apiRep->getApiData('instagram/' . $photoId . "/comments", $access_token);
-        $comments = $controllerRep->castToComments($comments);
-        return $this->render('instagram/intagramPhoto.html.twig', [
-            'photo' => $photo,
-            'comments' => $comments
-        ]);
+        try {
+            $photo = $apiRep->getApiData('instagram/' . $photoId, $access_token);
+            $photo = $controllerRep->castToPhoto($photo);
+            $comments = $apiRep->getApiData('instagram/' . $photoId . "/comments", $access_token);
+            $comments = $controllerRep->castToComments($comments);
+            return $this->render('instagram/intagramPhoto.html.twig', [
+                'photo' => $photo,
+                'comments' => $comments
+            ]);
+        } catch (ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface | TransportExceptionInterface $e) {
+            return $this->render('main/badrequest.html.twig', ['e' => $e->getMessage()]);
+        }
     }
 
 }

@@ -7,6 +7,10 @@ use App\Repository\ControllerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 
 class GooglePhotosController extends AbstractController
@@ -35,15 +39,16 @@ class GooglePhotosController extends AbstractController
         } else {
             $access_token = $tokens['GooglePhotos'];
             $apiRep = new ApiRepostiory();
-            $albums = $apiRep->getApiData('googlephotos/albums', $access_token);
-
-
-
-            $conRep = new ControllerRepository();
-            $albums = $conRep->castToAlbums($albums);
-            return $this->render('google_photos/googlephotosAlbums.html.twig', [
-                'albums' => $albums
-            ]);
+            try {
+                $albums = $apiRep->getApiData('googlephotos/albums', $access_token);
+                $conRep = new ControllerRepository();
+                $albums = $conRep->castToAlbums($albums);
+                return $this->render('google_photos/googlephotosAlbums.html.twig', [
+                    'albums' => $albums
+                ]);
+            } catch (ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface | TransportExceptionInterface $e) {
+                return $this->render('main/badrequest.html.twig', ['e' => $e->getMessage()]);
+            }
         }
     }
 
@@ -54,13 +59,17 @@ class GooglePhotosController extends AbstractController
     {
         $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
         $apiRep = new ApiRepostiory();
-        $photos = $apiRep->getApiData('googlephotos/photos', $access_token);
-        $controllerRep = new ControllerRepository();
-        $photos = $controllerRep->castToPhotos($photos);
-        $photos = $controllerRep->slicePhotosArray($photos);
-        return $this->render('google_photos/googlePhotosAll.html.twig', [
-            "photos" => $photos
-        ]);
+        try {
+            $photos = $apiRep->getApiData('googlephotos/photos', $access_token);
+            $controllerRep = new ControllerRepository();
+            $photos = $controllerRep->castToPhotos($photos);
+            $photos = $controllerRep->slicePhotosArray($photos);
+            return $this->render('google_photos/googlePhotosAll.html.twig', [
+                "photos" => $photos
+            ]);
+        } catch (ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface | TransportExceptionInterface $e) {
+            return $this->render('main/badrequest.html.twig', ['e' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -70,14 +79,18 @@ class GooglePhotosController extends AbstractController
     {
         $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
         $apiRep = new ApiRepostiory();
-        $photos = $apiRep->getApiData('googlephotos/albums/' . $albumId, $access_token);
-        $controllerRep = new ControllerRepository();
-        $photos = $controllerRep->castToPhotos($photos);
-        $photos = $controllerRep->slicePhotosArray($photos);
-        return $this->render('google_photos/googlePhotos.html.twig', [
-            "photos" => $photos,
-            'album' => $albumId
-        ]);
+        try {
+            $photos = $apiRep->getApiData('googlephotos/albums/' . $albumId, $access_token);
+            $controllerRep = new ControllerRepository();
+            $photos = $controllerRep->castToPhotos($photos);
+            $photos = $controllerRep->slicePhotosArray($photos);
+            return $this->render('google_photos/googlePhotos.html.twig', [
+                "photos" => $photos,
+                'album' => $albumId
+            ]);
+        } catch (ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface | TransportExceptionInterface $e) {
+            return $this->render('main/badrequest.html.twig', ['e' => $e->getMessage()]);
+        }
     }
 
 
@@ -88,10 +101,14 @@ class GooglePhotosController extends AbstractController
     {
         $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
         $apiRep = new ApiRepostiory();
-        $photo = $apiRep->getApiData('googlephotos/photos/' . $mediaId, $access_token);
-        $controllerRep = new ControllerRepository();
-        $photo = $controllerRep->castToPhoto($photo);
-        return $this->render('google_photos/googlePhotoOne.html.twig', ['photo' => $photo, 'albumId' => $albumId]);
+        try {
+            $photo = $apiRep->getApiData('googlephotos/photos/' . $mediaId, $access_token);
+            $controllerRep = new ControllerRepository();
+            $photo = $controllerRep->castToPhoto($photo);
+            return $this->render('google_photos/googlePhotoOne.html.twig', ['photo' => $photo, 'albumId' => $albumId]);
+        } catch (ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface | TransportExceptionInterface $e) {
+            return $this->render('main/badrequest.html.twig', ['e' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -101,10 +118,14 @@ class GooglePhotosController extends AbstractController
     {
         $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
         $apiRep = new ApiRepostiory();
-        $photo = $apiRep->getApiData('googlephotos/photos/' . $mediaId, $access_token);
-        $controllerRep = new ControllerRepository();
-        $photo = $controllerRep->castToPhoto($photo);
-        return $this->render('google_photos/googlePhotoOne.html.twig', ['photo' => $photo, 'albumId' => 'all']);
+        try {
+            $photo = $apiRep->getApiData('googlephotos/photos/' . $mediaId, $access_token);
+            $controllerRep = new ControllerRepository();
+            $photo = $controllerRep->castToPhoto($photo);
+            return $this->render('google_photos/googlePhotoOne.html.twig', ['photo' => $photo, 'albumId' => 'all']);
+        } catch (ClientExceptionInterface | RedirectionExceptionInterface | ServerExceptionInterface | TransportExceptionInterface $e) {
+            return $this->render('main/badrequest.html.twig', ['e' => $e->getMessage()]);
+        }
     }
 
 

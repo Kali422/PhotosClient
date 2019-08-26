@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class=" vertical-center"> <!--
+                      ^--- Added class  -->
+        <div class="container" style="font-size: 200%;">
+            <div id="browse_app">
+                <p style="font-size: 50%;">Error: {{ e }}</p>
+                <p>Please try reconnect to your media</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
