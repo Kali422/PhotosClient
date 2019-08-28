@@ -62,7 +62,10 @@ class InstagramController extends AbstractController
      */
     public function getInstagramPhoto($photoId)
     {
-        $access_token = ($this->get('session')->get('tokens'))['Instagram'];
+        $access_token='';
+        if (!empty(($this->get('session')->get('tokens'))['Instagram'])) {
+            $access_token = ($this->get('session')->get('tokens'))['Instagram'];
+        }
         $apiRep = new ApiRepostiory();
         $controllerRep = new ControllerRepository();
         try {

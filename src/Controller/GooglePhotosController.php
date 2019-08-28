@@ -57,7 +57,11 @@ class GooglePhotosController extends AbstractController
      */
     public function getGooglePhotosAll()
     {
-        $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
+        $access_token='';
+
+        if (isset(($this->get('session')->get('tokens'))['GooglePhotos'])) {
+            $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
+        }
         $apiRep = new ApiRepostiory();
         try {
             $photos = $apiRep->getApiData('googlephotos/photos', $access_token);
@@ -77,7 +81,11 @@ class GooglePhotosController extends AbstractController
      */
     public function getGooglePhotosPhotosInAlbum($albumId)
     {
-        $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
+        $access_token='';
+
+        if (isset(($this->get('session')->get('tokens'))['GooglePhotos'])) {
+            $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
+        }
         $apiRep = new ApiRepostiory();
         try {
             $photos = $apiRep->getApiData('googlephotos/albums/' . $albumId, $access_token);
@@ -99,7 +107,11 @@ class GooglePhotosController extends AbstractController
      */
     public function getGooglePhotoSingle($albumId, $mediaId)
     {
-        $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
+        $access_token='';
+
+        if (isset(($this->get('session')->get('tokens'))['GooglePhotos'])) {
+            $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
+        }
         $apiRep = new ApiRepostiory();
         try {
             $photo = $apiRep->getApiData('googlephotos/photos/' . $mediaId, $access_token);
@@ -116,7 +128,10 @@ class GooglePhotosController extends AbstractController
      */
     public function getGooglePhotoSingleFromAll($mediaId)
     {
-        $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
+        $access_token='';
+        if (isset(($this->get('session')->get('tokens'))['GooglePhotos'])) {
+            $access_token = ($this->get('session')->get('tokens'))['GooglePhotos'];
+        }
         $apiRep = new ApiRepostiory();
         try {
             $photo = $apiRep->getApiData('googlephotos/photos/' . $mediaId, $access_token);
